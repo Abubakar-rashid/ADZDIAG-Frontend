@@ -1,0 +1,48 @@
+function decodeMgEeprom(buffer) {
+    if (!(buffer instanceof Uint8Array)) {
+        throw new Error("Input must be Uint8Array");
+    }
+    if (buffer.length < 0x190) {
+        throw new Error("EEPROM data too short, must be at least 0x190 (400) bytes");
+    }
+
+    let result = {};
+
+    // ===== VIN extraction =====
+    let firstCharOffset = 0x170 + 15; // 0x17F
+    let vinBytes = [buffer[firstCharOffset], ...buffer.slice(0x180, 0x190)];
+    let vin = vinBytes.map(b =>
+        (b >= 32 && b < 127) ? String.fromCharCode(b) : "."
+    ).join("");
+    result["VIN"] = vin;
+
+    // ===== EKA Code =====
+    let ekaBytes = buffer.slice(0x002, 0x004);
+    let ekaCode = Array.from(ekaBytes).map(b => b.toString(16).toUpperCase().padStart(2, "0")).join("");
+    result["EKA"] = ekaCode;
+
+    // ===== Remote Barcode IDs =====
+    let remotes = [];
+
+    // Define 4 slots (each slot is 10 bytes)
+    let slots = [
+        [...buffer.slice(0x2A, 0x2E), ...buffer.slice(0x24, 0x2A)],
+        [...buffer.slice(0x39, 0x3D), ...buffer.slice(0x33, 0x39)],
+        [...buffer.slice(0x48, 0x4C), ...buffer.slice(0x42, 0x48)],
+        [...buffer.slice(0x57, 0x5B), ...buffer.slice(0x51, 0x57)],
+    ];
+
+    slots.forEach((slot, idx) => {
+        let hexstr = slot.map(b => b.toString(16).toUpperCase().padStart(2, "0")).join(" ");
+        let isEmpty = slot.every(b => b === 0xFF);
+        remotes.push({
+            label: `Remote ${idx + 1}`,
+            data: isEmpty ? "Empty" : hexstr
+        });
+    });
+
+    result["Remotes"] = remotes;
+    result["Remote Count"] = remotes.length;
+
+    return result;
+}
