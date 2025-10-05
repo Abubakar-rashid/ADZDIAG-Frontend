@@ -149,27 +149,34 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || !isset(
   </div>
 
   <script>
-    // ===== 29 Brands =====
-    const allBrands = [
-      "abarth","alfa romeo","bmw","chevrolet","chrysler","citroen","dacia","dodge",
-      "fiat","ford","holden","hyundai","jaguar","jeep","kia","lancia","land rover",
-      "maserati","mazda","mercedes","mg","nissan","peugeot","renault","smart",
-      "suzuki","toyota","vauxhall"
-    ];
+    // ===== Vehicle Data (loaded from database) =====
+    let allBrands = [];
+    let brandModels = {};
+    let brandsData = []; // Store full brand data including logos
 
-    // ===== Example Models =====
-    const brandModels = {
-      ford: [
-        { img: "/vehicleimages/ford.png", name: "Focus 2005–2010", type: "BLADED", procedure: "focusmk2_bladed" },
-        { img: "/vehicleimages/ford.png", name: "Fiesta 2002–2008", type: "BLADED", procedure: "fiesta_bladed" }
-      ],
-      bmw: [
-        { img: "/vehicleimages/bmw.png", name: "E90 CAS3", type: "Module", procedure: "bmw_cas3" }
-      ],
-      toyota: [
-        { img: "/vehicleimages/toyota.png", name: "Corolla 2008–2012", type: "Bladed", procedure: "toyota_corolla" }
-      ]
-    };
+    // Load vehicle data from API
+    async function loadVehicleData() {
+      try {
+        const response = await fetch('api_vehicles.php');
+        const data = await response.json();
+        
+        if (data.success) {
+          // Store brands data
+          brandsData = data.brands;
+          allBrands = data.brands.map(b => b.name);
+          brandModels = data.models;
+          
+          // Build the brand grid
+          buildBrandGrid();
+        } else {
+          console.error('Error loading vehicle data:', data.error);
+          document.getElementById('brandGrid').innerHTML = '<p class="text-danger">Error loading vehicle data. Please refresh the page.</p>';
+        }
+      } catch (error) {
+        console.error('Error fetching vehicle data:', error);
+        document.getElementById('brandGrid').innerHTML = '<p class="text-danger">Error connecting to server. Please refresh the page.</p>';
+      }
+    }
 
     // ===== Command helper =====
     async function sendCommand(writer, logs, cmd, delay = 300) {
@@ -327,15 +334,22 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || !isset(
     });
 
     // ===== Build brand grid =====
-    window.onload = () => {
+    function buildBrandGrid() {
       const brandGrid = document.getElementById('brandGrid');
-      allBrands.forEach(brand => {
+      brandGrid.innerHTML = ''; // Clear existing content
+      
+      brandsData.forEach(brand => {
         let div = document.createElement("div");
         div.className = "box";
-        div.onclick = () => showModels(brand);
-        div.innerHTML = `<img src="/vehicleimages/${brand}.png" alt="${brand}">`;
+        div.onclick = () => showModels(brand.name);
+        div.innerHTML = `<img src="${brand.logo}" alt="${brand.name}">`;
         brandGrid.appendChild(div);
       });
+    }
+
+    // ===== Load data on page load =====
+    window.onload = () => {
+      loadVehicleData();
     };
   </script>
   <script src="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js" defer></script>

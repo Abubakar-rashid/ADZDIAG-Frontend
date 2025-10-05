@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vehicle Management Setup Instructions</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #333;
+      }
+      .container {
+        background: white;
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        color: #667eea;
+        margin-top: 0;
+        font-size: 2.5em;
+      }
+      .method {
+        background: #f8f9fa;
+        border-left: 5px solid #667eea;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 5px;
+      }
+      .method h2 {
+        margin-top: 0;
+        color: #667eea;
+      }
+      .button {
+        display: inline-block;
+        padding: 15px 30px;
+        background: #667eea;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        margin: 10px 10px 10px 0;
+        transition: background 0.3s;
+      }
+      .button:hover {
+        background: #5568d3;
+      }
+      .button-success {
+        background: #28a745;
+      }
+      .button-success:hover {
+        background: #218838;
+      }
+      .button-info {
+        background: #17a2b8;
+      }
+      .button-info:hover {
+        background: #138496;
+      }
+      .code {
+        background: #2d2d2d;
+        color: #f8f8f2;
+        padding: 15px;
+        border-radius: 5px;
+        font-family: "Courier New", monospace;
+        overflow-x: auto;
+        margin: 10px 0;
+      }
+      .step {
+        background: white;
+        border: 2px solid #667eea;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+      }
+      .step-number {
+        background: #667eea;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.2em;
+        margin-right: 15px;
+        flex-shrink: 0;
+      }
+      .alert {
+        background: #fff3cd;
+        border: 1px solid #ffc107;
+        color: #856404;
+        padding: 15px;
+        border-radius: 5px;
+        margin: 20px 0;
+      }
+      .alert-danger {
+        background: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+      }
+      .alert-success {
+        background: #d4edda;
+        border-color: #c3e6cb;
+        color: #155724;
+      }
+      ul {
+        line-height: 1.8;
+      }
+      .icon {
+        font-size: 1.5em;
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🚗 Vehicle Management Database Setup</h1>
+
+      <div class="alert alert-danger">
+        <strong>⚠️ PostgreSQL Tools Not Found</strong><br />
+        The command-line PostgreSQL tools (psql) are not installed on your
+        system. Please use one of the methods below to set up the database.
+      </div>
+
+      <!-- Method 1: Web-Based Setup (Recommended) -->
+      <div class="method">
+        <h2>🌐 Method 1: Web-Based Setup (EASIEST - RECOMMENDED)</h2>
+        <p>Use the PHP-based setup script that runs in your browser:</p>
+
+        <div class="step">
+          <div class="step-number">1</div>
+          <div>Click the button below to open the setup page</div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <div>Log in with your admin credentials if prompted</div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <div>The script will automatically create all database tables</div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">4</div>
+          <div>You'll see a success message when complete</div>
+        </div>
+
+        <div style="margin-top: 20px">
+          <a
+            href="https://www.app.adzdiag.co.uk/setup_vehicle_database.php"
+            class="button button-success"
+            target="_blank"
+          >
+            🚀 Run Web Setup Now
+          </a>
+        </div>
+      </div>
+
+      <!-- Method 2: pgAdmin -->
+      <div class="method">
+        <h2>🔧 Method 2: Using pgAdmin (Manual)</h2>
+        <p>If you have pgAdmin installed, follow these steps:</p>
+
+        <div class="step">
+          <div class="step-number">1</div>
+          <div>Open pgAdmin and connect to your PostgreSQL server</div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <div>Navigate to: Servers → Your Server → Databases → mydb</div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <div>Right-click on "mydb" → Query Tool</div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">4</div>
+          <div>Open the file: <code>vehicle_schema.sql</code></div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">5</div>
+          <div>Click "Execute" button (F5) to run the script</div>
+        </div>
+
+        <div class="alert alert-success" style="margin-top: 15px">
+          <strong>✓ Connection Details:</strong><br />
+          Host: 217.154.59.146<br />
+          Port: 5432<br />
+          Database: mydb<br />
+          User: admin
+        </div>
+      </div>
+
+      <!-- Method 3: Online Database Tool -->
+      <div class="method">
+        <h2>💻 Method 3: Using Any PostgreSQL Client</h2>
+        <p>You can use any PostgreSQL client tool:</p>
+
+        <ul>
+          <li><strong>DBeaver</strong> - Free universal database tool</li>
+          <li><strong>DataGrip</strong> - JetBrains database IDE</li>
+          <li>
+            <strong>Azure Data Studio</strong> - Microsoft's database tool
+          </li>
+          <li><strong>TablePlus</strong> - Modern database GUI</li>
+        </ul>
+
+        <p>
+          Connect with these details and execute
+          <code>vehicle_schema.sql</code>:
+        </p>
+        <div class="code">
+          Host: 217.154.59.146 Port: 5432 Database: mydb User: admin Password:
+          [your password]
+        </div>
+      </div>
+
+      <!-- After Setup -->
+      <div
+        style="
+          background: #e7f3ff;
+          padding: 20px;
+          border-radius: 10px;
+          margin-top: 30px;
+        "
+      >
+        <h2 style="margin-top: 0">📋 After Setup is Complete</h2>
+        <p>Once the database is set up, you can:</p>
+
+        <div style="margin: 20px 0">
+          <a
+            href="https://www.app.adzdiag.co.uk/vehicle_management.php"
+            class="button button-info"
+            target="_blank"
+          >
+            🚗 Open Vehicle Management
+          </a>
+          <a
+            href="https://www.app.adzdiag.co.uk/programkeys.php"
+            class="button button-info"
+            target="_blank"
+          >
+            🔑 Open Program Keys
+          </a>
+          <a
+            href="https://www.app.adzdiag.co.uk/admin.php"
+            class="button button-info"
+            target="_blank"
+          >
+            👤 Open Admin Panel
+          </a>
+        </div>
+      </div>
+
+      <!-- Troubleshooting -->
+      <div class="method" style="border-left-color: #dc3545">
+        <h2 style="color: #dc3545">🆘 Troubleshooting</h2>
+
+        <p><strong>If you get a "Connection failed" error:</strong></p>
+        <ul>
+          <li>
+            Check that your database credentials in <code>config.php</code> are
+            correct
+          </li>
+          <li>Verify the PostgreSQL server is running</li>
+          <li>Ensure your IP is allowed to connect to the database</li>
+        </ul>
+
+        <p><strong>If you get a "Permission denied" error:</strong></p>
+        <ul>
+          <li>Make sure your database user has CREATE TABLE permissions</li>
+          <li>Check that you're connected to the correct database (mydb)</li>
+        </ul>
+
+        <p><strong>If tables already exist:</strong></p>
+        <ul>
+          <li>The script is safe to run multiple times</li>
+          <li>It will skip existing tables and data</li>
+          <li>Use "ON CONFLICT DO NOTHING" for safety</li>
+        </ul>
+      </div>
+
+      <!-- Documentation -->
+      <div
+        style="
+          text-align: center;
+          margin-top: 40px;
+          padding-top: 20px;
+          border-top: 2px solid #eee;
+        "
+      >
+        <h3>📚 Documentation</h3>
+        <p>For more information, check these files in your project folder:</p>
+        <ul style="list-style: none; padding: 0">
+          <li>
+            📄 <code>README_VEHICLE_SYSTEM.md</code> - Complete system overview
+          </li>
+          <li>📄 <code>QUICK_START_GUIDE.md</code> - Quick setup guide</li>
+          <li>📄 <code>SETUP_CHECKLIST.md</code> - Step-by-step checklist</li>
+        </ul>
+      </div>
+
+      <div
+        style="
+          text-align: center;
+          margin-top: 30px;
+          color: #666;
+          font-size: 0.9em;
+        "
+      >
+        <p>AdzDIAG Vehicle Management System © 2025</p>
+      </div>
+    </div>
+  </body>
+</html>

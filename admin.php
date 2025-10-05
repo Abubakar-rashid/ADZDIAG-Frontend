@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && isset($_P
 
 // Fetch all users from database
 try {
-    $stmt = $conn->prepare("SELECT user_id, username, email, role, created_at, is_activated FROM users ORDER BY created_at DESC");
+    $stmt = $conn->prepare("SELECT user_id, username, email, role, is_activated FROM users ORDER BY user_id DESC");
     $stmt->execute();
     $users = $stmt->fetchAll();
 } catch (PDOException $e) {
@@ -222,6 +222,15 @@ try {
                         </div>
                         <div class="col-auto ms-auto d-print-none">
                             <div class="btn-list">
+                                <a href="vehicle_management.php" class="btn btn-outline-success">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z"/>
+                                        <circle cx="7" cy="17" r="2"/>
+                                        <circle cx="17" cy="17" r="2"/>
+                                        <path d="M5 17h-2v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6m-6 -6h15m-6 0v-5"/>
+                                    </svg>
+                                    Vehicle Management
+                                </a>
                                 <a href="test_email.php" class="btn btn-outline-info">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z"/>
@@ -306,14 +315,13 @@ try {
                                                 <th>Email</th>
                                                 <th>Role</th>
                                                 <th>Status</th>
-                                                <th>Created At</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php if (empty($users)): ?>
                                                 <tr>
-                                                    <td colspan="7" class="text-center text-muted py-4">
+                                                    <td colspan="6" class="text-center text-muted py-4">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2" width="48" height="48" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                             <path stroke="none" d="M0 0h24v24H0z"/>
                                                             <circle cx="12" cy="12" r="9"/>
@@ -392,18 +400,6 @@ try {
                                                                     </svg>
                                                                 </span>
                                                             <?php endif; ?>
-                                                        </td>
-                                                        <td>
-                                                            <div class="text-muted">
-                                                                <?php 
-                                                                if ($user['created_at']) {
-                                                                    $date = new DateTime($user['created_at']);
-                                                                    echo $date->format('M d, Y \a\t g:i A');
-                                                                } else {
-                                                                    echo 'N/A';
-                                                                }
-                                                                ?>
-                                                            </div>
                                                         </td>
                                                         <td>
                                                             <div class="btn-list flex-nowrap">
